@@ -50,27 +50,27 @@ function mostraDati() {
     let indirizzo = document.getElementById("indirizzo").value;
     let citta = document.getElementById("citta").value;
 
-    // SESSO
+   
     let sesso = document.querySelector('input[name="sesso"]:checked');
     sesso = sesso ? sesso.value : "Non selezionato";
 
-    // DIPLOMI (senza for)
+    
     let d1 = document.querySelector('.diploma[value="Licenza Media"]').checked ? "Licenza Media " : "";
     let d2 = document.querySelector('.diploma[value="Diploma"]').checked ? "Diploma " : "";
     let d3 = document.querySelector('.diploma[value="Laurea"]').checked ? "Laurea " : "";
     let diplomi = (d1 + d2 + d3).trim();
 
-    // PROVINCIA
+    
     let provincia = document.getElementById("provincia").value;
 
-    // SPORT (senza for)
+    
     let s1 = document.querySelector('#sport option[value="Calcio"]').selected ? "Calcio " : "";
     let s2 = document.querySelector('#sport option[value="Basket"]').selected ? "Basket " : "";
     let s3 = document.querySelector('#sport option[value="Tennis"]').selected ? "Tennis " : "";
     let s4 = document.querySelector('#sport option[value="Nuoto"]').selected ? "Nuoto " : "";
     let sport = (s1 + s2 + s3 + s4).trim();
 
-    // CREAZIONE TABELLA
+    
     let tabella =
         "<table border='1' cellpadding='5'>" +
         "<tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th>" +
