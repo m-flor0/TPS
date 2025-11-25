@@ -57,7 +57,7 @@ const anagrafica = {
 
 function mostraDati() {
 
-    // ASSEGNO I VALORI ALL'OGGETTO
+    
     anagrafica.nome = document.getElementById("nome").value;
     anagrafica.cognome = document.getElementById("cognome").value;
     anagrafica.indirizzo = document.getElementById("indirizzo").value;
@@ -66,7 +66,7 @@ function mostraDati() {
     let s = document.querySelector('input[name="sesso"]:checked');
     anagrafica.sesso = s ? s.value : "Non selezionato";
 
-    // diplomi SENZA FOR
+    
     let d1 = document.querySelector('.diploma[value="Licenza Media"]').checked ? "Licenza Media " : "";
     let d2 = document.querySelector('.diploma[value="Diploma"]').checked ? "Diploma " : "";
     let d3 = document.querySelector('.diploma[value="Laurea"]').checked ? "Laurea " : "";
@@ -74,14 +74,14 @@ function mostraDati() {
 
     anagrafica.provincia = document.getElementById("provincia").value;
 
-    // sport SENZA FOR
+    
     let s1 = document.querySelector('#sport option[value="Calcio"]').selected ? "Calcio " : "";
     let s2 = document.querySelector('#sport option[value="Basket"]').selected ? "Basket " : "";
     let s3 = document.querySelector('#sport option[value="Tennis"]').selected ? "Tennis " : "";
     let s4 = document.querySelector('#sport option[value="Nuoto"]').selected ? "Nuoto " : "";
     anagrafica.sport = (s1 + s2 + s3 + s4).trim();
 
-    // STAMPA TRAMITE NOTAZIONE PUNTATA
+    
     let tabella =
         "<table border='1' cellpadding='5'>" +
         "<tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th>" +
