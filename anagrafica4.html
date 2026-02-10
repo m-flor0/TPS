@@ -75,7 +75,7 @@ function salvaDati() {
 }
 
 function mostraTabella() {
-    collection = JSON.parse(localStorage.getItem('collection'));
+    collection = JSON.parse(localStorage.getItem('collection')) || [];;
 
     if (collection.length === 0) {
         document.getElementById("risultato").innerHTML = "<p>Nessun dato salvato.</p>";
