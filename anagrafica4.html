@@ -25,7 +25,7 @@ Nazione: <input type="text" id="nazione"><br><br>
 let collection = JSON.parse(localStorage.getItem('collection'));
 
 function salvaDati() {
-    let persona = {
+    const persona = {
         nome: document.getElementById("nome").value,
         cognome: document.getElementById("cognome").value,
         eta: document.getElementById("eta").value,
