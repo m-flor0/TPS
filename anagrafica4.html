@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Anagrafica 4.0</title>
+<meta charset="UTF-8">
+<title>Anagrafica 4.0 - Unica Pagina</title>
 </head>
 <body>
 
@@ -10,119 +10,79 @@
 
 Nome: <input type="text" id="nome"><br><br>
 Cognome: <input type="text" id="cognome"><br><br>
-Indirizzo: <input type="text" id="indirizzo"><br><br>
+Età: <input type="number" id="eta"><br><br>
 Città: <input type="text" id="citta"><br><br>
+Provincia: <input type="text" id="provincia"><br><br>
+Nazione: <input type="text" id="nazione"><br><br>
 
-Sesso:<br>
-M <input type="radio" name="sesso" value="M">
-F <input type="radio" name="sesso" value="F"><br><br>
+<input type="button" value="Salva Dati" onclick="salvaDati()">
+<input type="button" value="Azzera Dati" onclick="azzeraDati()">
 
-Diplomi:<br>
-Licenza Media <input type="checkbox" class="diploma" value="Licenza Media">
-Diploma <input type="checkbox" class="diploma" value="Diploma">
-Laurea <input type="checkbox" class="diploma" value="Laurea"><br><br>
-
-Provincia:
-<select id="provincia">
-    <option value="RM">RM</option>
-    <option value="MI">MI</option>
-    <option value="TO">TO</option>
-    <option value="FI">FI</option>
-</select><br><br>
-
-Sport praticati:<br>
-<select id="sport" multiple size="4">
-    <option value="Calcio">Calcio</option>
-    <option value="Basket">Basket</option>
-    <option value="Tennis">Tennis</option>
-    <option value="Nuoto">Nuoto</option>
-</select><br><br>
-
-<input type="button" value="Salva Dati e Visualizza" onclick="salvaDati()">
-
-<div id="risultato"></div>
+<h3>Dati Salvati</h3>
+<div id="tabella"></div>
 
 <script>
-let collection = [];
+let collection = JSON.parse(localStorage.getItem('collection')) || [];
 
 function salvaDati() {
-    const anagrafica = {
+    let persona = {
         nome: document.getElementById("nome").value,
         cognome: document.getElementById("cognome").value,
-        indirizzo: document.getElementById("indirizzo").value,
+        eta: document.getElementById("eta").value,
         citta: document.getElementById("citta").value,
-        sesso: document.querySelector('input[name="sesso"]:checked') ? document.querySelector('input[name="sesso"]:checked').value : "Non selezionato",
-        diplomi: [],
         provincia: document.getElementById("provincia").value,
-        sport: []
+        nazione: document.getElementById("nazione").value
     };
 
-    let diplomiSelezionati = document.querySelectorAll('.diploma:checked');
-    for (let i = 0; i < diplomiSelezionati.length; i++) {
-        anagrafica.diplomi.push(diplomiSelezionati[i].value);
-    }
-
-    let sportSelezionati = document.querySelectorAll('#sport option:checked');
-    for (let i = 0; i < sportSelezionati.length; i++) {
-        anagrafica.sport.push(sportSelezionati[i].value);
-    }
-
-    collection.push(anagrafica);
-
+    collection.push(persona);
     localStorage.setItem('collection', JSON.stringify(collection));
 
     mostraTabella();
+    pulisciForm();
 }
 
 function mostraTabella() {
-    collection = JSON.parse(localStorage.getItem('collection'));
-
     if (collection.length === 0) {
-        document.getElementById("risultato").innerHTML = "<p>Nessun dato salvato.</p>";
+        document.getElementById("tabella").innerHTML = "<p>Nessun dato salvato.</p>";
         return;
     }
 
-    let tabella = "<table border='1' cellpadding='5'>" +
-        "<tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th>" +
-        "<th>Sesso</th><th>Diplomi</th><th>Provincia</th><th>Sport</th></tr>";
+    let html = "<table border='1' cellpadding='5'><tr>" +
+        "<th>Nome</th><th>Cognome</th><th>Età</th><th>Città</th><th>Provincia</th><th>Nazione</th></tr>";
 
     for (let i = 0; i < collection.length; i++) {
-        let dato = collection[i];
-
-        let diplomi = "";
-        for (let j = 0; j < dato.diplomi.length; j++) {
-            diplomi += dato.diplomi[j];
-            if (j < dato.diplomi.length - 1) {
-                diplomi += ", ";
-            }
-        }
-
-        let sport = "";
-        for (let k = 0; k < dato.sport.length; k++) {
-            sport += dato.sport[k];
-            if (k < dato.sport.length - 1) {
-                sport += ", ";
-            }
-        }
-
-        tabella += "<tr><td>" + dato.nome +
-            "</td><td>" + dato.cognome +
-            "</td><td>" + dato.indirizzo +
-            "</td><td>" + dato.citta +
-            "</td><td>" + dato.sesso +
-            "</td><td>" + diplomi +
-            "</td><td>" + dato.provincia +
-            "</td><td>" + sport +
+        let p = collection[i];
+        html += "<tr><td>" + p.nome +
+            "</td><td>" + p.cognome +
+            "</td><td>" + p.eta +
+            "</td><td>" + p.citta +
+            "</td><td>" + p.provincia +
+            "</td><td>" + p.nazione +
             "</td></tr>";
     }
 
-    tabella += "</table>";
-
-    document.getElementById("risultato").innerHTML = tabella;
+    html += "</table>";
+    document.getElementById("tabella").innerHTML = html;
 }
 
-document.addEventListener("DOMContentLoaded", mostraTabella);
+function pulisciForm() {
+    document.getElementById("nome").value = "";
+    document.getElementById("cognome").value = "";
+    document.getElementById("eta").value = "";
+    document.getElementById("citta").value = "";
+    document.getElementById("provincia").value = "";
+    document.getElementById("nazione").value = "";
+}
+
+function azzeraDati() {
+    localStorage.removeItem('collection');
+    collection = [];
+    mostraTabella();
+}
+
+mostraTabella();
 </script>
 
 </body>
 </html>
+
