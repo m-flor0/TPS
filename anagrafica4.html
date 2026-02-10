@@ -51,9 +51,7 @@ function salvaDati() {
         cognome: document.getElementById("cognome").value,
         indirizzo: document.getElementById("indirizzo").value,
         citta: document.getElementById("citta").value,
-        sesso: document.querySelector('input[name="sesso"]:checked')
-            ? document.querySelector('input[name="sesso"]:checked').value
-            : "Non selezionato",
+        sesso: document.querySelector('input[name="sesso"]:checked') ? document.querySelector('input[name="sesso"]:checked').value : "Non selezionato",
         diplomi: [],
         provincia: document.getElementById("provincia").value,
         sport: []
