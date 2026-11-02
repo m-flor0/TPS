@@ -1,66 +1,137 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>COVID-19 Italia - andamento nazionale</title>
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 16px; }
-    h2 { margin-bottom: 4px; }
-    #info { color: #555; margin-bottom: 12px; font-size: 14px; }
-    #chiavi { font-size: 12px; background: #f4f4f4; padding: 8px; margin-bottom: 12px; word-break: break-word; }
-    .scroll { overflow: auto; max-height: 75vh; border: 1px solid #ccc; }
-    table { border-collapse: collapse; font-size: 12px; width: max-content; }
-    th, td { border: 1px solid #bbb; padding: 4px 8px; text-align: right; white-space: nowrap; }
-    th { background: #e8eef7; position: sticky; top: 0; }
-    td:first-child, th:first-child { position: sticky; left: 0; background: #e8eef7; text-align: left; }
-    tbody tr:nth-child(even) td { background: #fafafa; }
-    tbody tr:nth-child(even) td:first-child { background: #e8eef7; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 16px;
+    }
+
+    h2 {
+      margin-bottom: 4px;
+    }
+
+    #info {
+      color: #555;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    #chiavi {
+      font-size: 12px;
+      background: #f4f4f4;
+      padding: 8px;
+      margin-bottom: 12px;
+      word-break: break-word;
+    }
+
+    .scroll {
+      overflow: auto;
+      max-height: 75vh;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      border-collapse: collapse;
+      font-size: 12px;
+      width: max-content;
+    }
+
+    th, td {
+      border: 1px solid #bbb;
+      padding: 4px 8px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #e8eef7;
+      position: sticky;
+      top: 0;
+    }
+
+    td:first-child, th:first-child {
+      position: sticky;
+      left: 0;
+      background: #e8eef7;
+      text-align: left;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: #fafafa;
+    }
+
+    tbody tr:nth-child(even) td:first-child {
+      background: #e8eef7;
+    }
   </style>
 </head>
+
 <body>
+
   <h2>Andamento nazionale COVID-19 per data</h2>
+
   <div id="info">Caricamento dati...</div>
   <div id="chiavi"></div>
   <div class="scroll" id="contenitore"></div>
 
   <script>
+
     const url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json";
 
     const xhr = new XMLHttpRequest();
+
     xhr.open("GET", url);
     xhr.responseType = "json";
 
     xhr.onload = function() {
-      if (xhr.status === 200) {
-        const dati = xhr.response;
 
+      if (xhr.status === 200) {
+
+        const dati = xhr.response;
         const chiavi = Object.keys(dati[0]);
-        console.log("Chiavi:", chiavi);
 
         document.getElementById("info").textContent =
-          dati.length + " giorni, dal " + dati[0].data.slice(0, 10) +
-          " al " + dati[dati.length - 1].data.slice(0, 10);
-        document.getElementById("chiavi").textContent = "Chiavi: " + chiavi.join(", ");
+          dati.length + " giorni, dal " + dati[0].data +
+          " al " + dati[dati.length - 1].data;
+
+        document.getElementById("chiavi").textContent =
+          "Chiavi: " + chiavi.join(", ");
 
         let html = "<table><thead><tr>";
-        chiavi.forEach(k => html += "<th>" + k + "</th>");
+
+        chiavi.forEach(k => {
+          html += "<th>" + k + "</th>";
+        });
+
         html += "</tr></thead><tbody>";
 
         dati.forEach(record => {
+
           html += "<tr>";
+
           chiavi.forEach(k => {
-            let valore = record[k];
-            if (k === "data") valore = valore.slice(0, 10);
-            html += "<td>" + (valore ?? "") + "</td>";
+            html += "<td>" + (record[k] ?? "") + "</td>";
           });
+
           html += "</tr>";
+
         });
 
         html += "</tbody></table>";
+
         document.getElementById("contenitore").innerHTML = html;
+
       } else {
-        document.getElementById("info").textContent = "Errore nel caricamento: " + xhr.status;
+
+        document.getElementById("info").textContent =
+          "Errore nel caricamento: " + xhr.status;
+
       }
     };
 
@@ -69,6 +140,8 @@
     };
 
     xhr.send();
+
   </script>
+
 </body>
 </html>
